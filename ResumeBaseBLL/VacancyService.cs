@@ -27,11 +27,22 @@ namespace ResumeBaseBLL
             Console.WriteLine("Write a salary (UAH per month)");
             double salary = double.Parse(Console.ReadLine());
 
+            while (!double.TryParse(Console.ReadLine(), out salary))
+            {
+                Console.WriteLine("Invalid number. Please enter a valid salary:");
+            }
+
+
             Console.WriteLine("Write a desciprion");
             string description = Console.ReadLine();
 
+            Console.WriteLine("Write an ID:");
+            int id = int.Parse(Console.ReadLine());
+
+
             var vacancyDTO = new VacancyDTO
             {
+                ID = id,
                 Title = title,
                 Salary = salary,
                 Description = description

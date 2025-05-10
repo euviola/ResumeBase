@@ -15,7 +15,7 @@ namespace ResumeBaseBLL.Mapper
         {
             return new ResumeDTO
             {
-                Id = entity.Id,
+                Id = entity.ID,
                 FullName = entity.FullName,
                 Description = entity.Description
             };
@@ -25,7 +25,7 @@ namespace ResumeBaseBLL.Mapper
         {
             return new Resume
             {
-                Id = dto.Id,
+                ID = dto.Id,
                 FullName = dto.FullName,
                 Description = dto.Description
             };

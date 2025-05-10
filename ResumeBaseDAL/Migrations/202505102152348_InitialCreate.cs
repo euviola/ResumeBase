@@ -12,32 +12,33 @@
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        ResumeID = c.Int(nullable: false),
-                        VacancyID = c.Int(nullable: false),
+                        ResumeID = c.String(),
+                        VacancyID = c.String(),
                         Status = c.String(),
-                        Vacancy_ID = c.String(maxLength: 128),
+                        Resume_ID = c.Int(),
+                        Vacancy_ID = c.Int(),
                     })
                 .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Resumes", t => t.ResumeID, cascadeDelete: true)
+                .ForeignKey("dbo.Resumes", t => t.Resume_ID)
                 .ForeignKey("dbo.Vacancies", t => t.Vacancy_ID)
-                .Index(t => t.ResumeID)
+                .Index(t => t.Resume_ID)
                 .Index(t => t.Vacancy_ID);
             
             CreateTable(
                 "dbo.Resumes",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
+                        ID = c.Int(nullable: false, identity: true),
                         FullName = c.String(),
                         Description = c.String(),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.ID);
             
             CreateTable(
                 "dbo.Vacancies",
                 c => new
                     {
-                        ID = c.String(nullable: false, maxLength: 128),
+                        ID = c.Int(nullable: false, identity: true),
                         Title = c.String(),
                         Salary = c.Double(nullable: false),
                         Description = c.String(),
@@ -49,9 +50,9 @@
         public override void Down()
         {
             DropForeignKey("dbo.Applications", "Vacancy_ID", "dbo.Vacancies");
-            DropForeignKey("dbo.Applications", "ResumeID", "dbo.Resumes");
+            DropForeignKey("dbo.Applications", "Resume_ID", "dbo.Resumes");
             DropIndex("dbo.Applications", new[] { "Vacancy_ID" });
-            DropIndex("dbo.Applications", new[] { "ResumeID" });
+            DropIndex("dbo.Applications", new[] { "Resume_ID" });
             DropTable("dbo.Vacancies");
             DropTable("dbo.Resumes");
             DropTable("dbo.Applications");

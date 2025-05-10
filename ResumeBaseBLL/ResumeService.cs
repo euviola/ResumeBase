@@ -27,10 +27,15 @@ namespace ResumeBaseBLL
             Console.WriteLine("Enter description:");
             string description = Console.ReadLine();
 
+            Console.WriteLine("Write an ID:");
+            int id = int.Parse(Console.ReadLine());
+
+
             var resumeDto = new ResumeDTO
             {
                 FullName = fullName,
-                Description = description
+                Description = description,
+                Id = id
             };
 
             var entity = Mapper.Mapper.ToEntity(resumeDto);
@@ -38,6 +43,7 @@ namespace ResumeBaseBLL
             _context.SaveChanges();
 
             Console.WriteLine("Added successfully");
+            Console.WriteLine($"Resume saved with ID: {resumeDto.Id}");
         }
 
         public void EditResume()

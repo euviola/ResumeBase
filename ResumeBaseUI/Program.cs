@@ -14,7 +14,13 @@ namespace ResumeBaseUI
         static void Main(string[] args)
         {
             var resumeService = new ResumeService();
+            var vacancyService = new VacancyService();
+
+            Console.WriteLine("Resume:");
             resumeService.AddResume();
+
+            Console.WriteLine("Vacancy:");
+            vacancyService.AddVacancy();
         }
     }
 }
