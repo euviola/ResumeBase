@@ -18,9 +18,8 @@ namespace ResumeBaseUI
 
             Console.WriteLine("Resume:");
             resumeService.AddResume();
-
-            Console.WriteLine("Vacancy:");
-            vacancyService.AddVacancy();
+            resumeService.AddResume();
+            Console.ReadKey();
         }
     }
 }
