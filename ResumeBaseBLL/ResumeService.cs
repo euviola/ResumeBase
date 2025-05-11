@@ -48,22 +48,102 @@ namespace ResumeBaseBLL
 
         public void EditResume()
         {
+            Console.WriteLine("Enter the ID of the resume to edit:");
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("Invalid ID.");
+                return;
+            }
 
+            var entity = _context.Resumes.Find(id);
+            if (entity == null)
+            {
+                Console.WriteLine("Resume not found.");
+                return;
+            }
+
+            Console.WriteLine("Enter new full name (leave blank to keep current):");
+            string fullName = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(fullName))
+            {
+                entity.FullName = fullName;
+            }
+
+            Console.WriteLine("Enter new description (leave blank to keep current):");
+            string description = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(description))
+            {
+                entity.Description = description;
+            }
+
+            _context.SaveChanges();
+            Console.WriteLine("Resume updated successfully.");
         }
 
         public void RemoveResume()
         {
+            Console.WriteLine("Enter the ID of the resume to remove:");
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("Invalid ID.");
+                return;
+            }
 
+            var entity = _context.Resumes.Find(id);
+            if (entity == null)
+            {
+                Console.WriteLine("Resume not found.");
+                return;
+            }
+
+            _context.Resumes.Remove(entity);
+            _context.SaveChanges();
+            Console.WriteLine("Resume removed successfully.");
         }
+
 
         public void GetAllResume()
         {
+            var entities = _context.Resumes.ToList();
+            var resumes = entities.Select(Mapper.Mapper.ToDTO).ToList();
 
+            if (resumes.Count == 0)
+            {
+                Console.WriteLine("No resumes found.");
+                return;
+            }
+
+            Console.WriteLine("List of all resumes:");
+            foreach (var resume in resumes)
+            {
+                Console.WriteLine($"ID: {resume.Id}, Name: {resume.FullName}, Description: {resume.Description}");
+            }
         }
+
 
         public void FindResume()
         {
+            Console.WriteLine("Enter full or partial name to search:");
+            string searchTerm = Console.ReadLine();
 
+            var results = _context.Resumes
+                .Where(r => r.FullName.Contains(searchTerm))
+                .ToList()
+                .Select(Mapper.Mapper.ToDTO)
+                .ToList();
+
+            if (results.Count == 0)
+            {
+                Console.WriteLine("No resumes found matching the search term.");
+                return;
+            }
+
+            Console.WriteLine("Matching resumes:");
+            foreach (var resume in results)
+            {
+                Console.WriteLine($"ID: {resume.Id}, Name: {resume.FullName}, Description: {resume.Description}");
+            }
         }
+
     }
 }
