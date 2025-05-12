@@ -1,6 +1,7 @@
 ﻿using ResumeBaseBLL;
 using ResumeBaseBLL.Mapper;
 using ResumeBaseBLL.Models;
+using ResumeBaseBLL.Enums
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace ResumeBaseUI
         {
             var resumeService = new ResumeService();
             var vacancyService = new VacancyService();
+            ConsoleMenu cs = new ConsoleMenu();
 
             Console.WriteLine("Resume:");
             resumeService.GetAllResume();

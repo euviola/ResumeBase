@@ -8,31 +8,13 @@ namespace ResumeBaseUI
 {
     public class ConsoleMenu
     {
-        public string DataAccessMenu()
-        {
-            Console.WriteLine("--- Log into your account ---");
-            string password = Console.ReadLine();
-            if (password.ToLower().ToString() == "admin")
-            {
-                return "admin";
-            }
-            else if (password.ToLower().ToString() == "employee")
-            {
-                return "employee";
-            }
-            else if(password.ToLower().ToString() == "worker")
-            {
-                return "worker";
-            }
-            else
-            {
-                return "guest";
-            }
-        }
-
         public int StartMenu()
         {
-            Console.WriteLine("--- Start Menu ---");
+            Console.WriteLine("—- Start Menu —-");
+            Console.WriteLine("1. Resume configuration");
+            Console.WriteLine("2. Vacancy configuration");
+            Console.WriteLine("3. Application configuration");
+            Console.WriteLine("4. Exit");
             int.TryParse(Console.ReadLine(), out var result);
             return result;
         }
