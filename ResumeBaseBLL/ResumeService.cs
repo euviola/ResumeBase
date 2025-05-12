@@ -30,6 +30,11 @@ namespace ResumeBaseBLL
             Console.WriteLine("Write an ID:");
             int id = int.Parse(Console.ReadLine());
 
+            if (_context.Resumes.Any(r => r.ID == id))
+            {
+                Console.WriteLine($"Resume with ID {id} already exists!");
+                return;
+            }
 
             var resumeDto = new ResumeDTO
             {
