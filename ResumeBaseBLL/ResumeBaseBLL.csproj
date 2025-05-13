@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccessManager.cs" />
     <Compile Include="ApplicationDTO.cs" />
     <Compile Include="ApplicationService.cs" />
     <Compile Include="Mapper.cs" />
