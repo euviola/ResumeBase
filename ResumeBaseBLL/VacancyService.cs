@@ -32,22 +32,11 @@ namespace ResumeBaseBLL
                 Console.WriteLine("Invalid number. Please enter a valid salary:");
             }
 
-
             Console.WriteLine("Write a desciprion");
             string description = Console.ReadLine();
 
-            Console.WriteLine("Write an ID:");
-            int id = int.Parse(Console.ReadLine());
-
-            if (_context.Vacancies.Any(r => r.ID == id))
-            {
-                Console.WriteLine($"Resume with ID {id} already exists!");
-                return;
-            }
-
             var vacancyDTO = new VacancyDTO
             {
-                ID = id,
                 Title = title,
                 Salary = salary,
                 Description = description
@@ -58,6 +47,7 @@ namespace ResumeBaseBLL
             _context.SaveChanges();
 
             Console.WriteLine("Added successfully");
+            Console.WriteLine($"Vacancy saved with ID: {entity.ID}");
         }
 
         public void RemoveVacancy()
@@ -144,10 +134,11 @@ namespace ResumeBaseBLL
         public void FindVacancy()
         {
             Console.WriteLine("Enter title or keyword to search:");
-            string searchTerm = Console.ReadLine();
+            string searchTerm = Console.ReadLine().ToLower();
 
             var results = _context.Vacancies
-                .Where(v => v.Title.Contains(searchTerm))
+                .Where(v => v.Title.ToLower().Contains(searchTerm))
+                .Take(10)
                 .ToList()
                 .Select(Mapper.Mapper.ToDTO)
                 .ToList();
@@ -158,10 +149,15 @@ namespace ResumeBaseBLL
                 return;
             }
 
-            Console.WriteLine("Matching vacancies:");
+            Console.WriteLine("Matching vacancies (showing up to 10):");
             foreach (var vacancy in results)
             {
                 Console.WriteLine($"ID: {vacancy.ID}, Title: {vacancy.Title}, Salary: {vacancy.Salary} UAH, Description: {vacancy.Description}");
+            }
+
+            if (results.Count == 10)
+            {
+                Console.WriteLine("More results may exist. Please refine your search if needed.");
             }
         }
 

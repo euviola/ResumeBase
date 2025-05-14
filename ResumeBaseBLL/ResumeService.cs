@@ -27,20 +27,10 @@ namespace ResumeBaseBLL
             Console.WriteLine("Enter description:");
             string description = Console.ReadLine();
 
-            Console.WriteLine("Write an ID:");
-            int id = int.Parse(Console.ReadLine());
-
-            if (_context.Resumes.Any(r => r.ID == id))
-            {
-                Console.WriteLine($"Resume with ID {id} already exists!");
-                return;
-            }
-
             var resumeDto = new ResumeDTO
             {
                 FullName = fullName,
-                Description = description,
-                Id = id
+                Description = description
             };
 
             var entity = Mapper.Mapper.ToEntity(resumeDto);
@@ -48,7 +38,7 @@ namespace ResumeBaseBLL
             _context.SaveChanges();
 
             Console.WriteLine("Added successfully");
-            Console.WriteLine($"Resume saved with ID: {resumeDto.Id}");
+            Console.WriteLine($"Resume saved with ID: {entity.ID}");
         }
 
         public void EditResume()
@@ -129,10 +119,11 @@ namespace ResumeBaseBLL
         public void FindResume()
         {
             Console.WriteLine("Enter full or partial name to search:");
-            string searchTerm = Console.ReadLine();
+            string searchTerm = Console.ReadLine().ToLower();
 
             var results = _context.Resumes
-                .Where(r => r.FullName.Contains(searchTerm))
+                .Where(r => r.FullName.ToLower().Contains(searchTerm))
+                .Take(10)
                 .ToList()
                 .Select(Mapper.Mapper.ToDTO)
                 .ToList();
@@ -143,12 +134,18 @@ namespace ResumeBaseBLL
                 return;
             }
 
-            Console.WriteLine("Matching resumes:");
+            Console.WriteLine("Matching resumes (showing up to 10):");
             foreach (var resume in results)
             {
                 Console.WriteLine($"ID: {resume.Id}, Name: {resume.FullName}, Description: {resume.Description}");
             }
+
+            if (results.Count == 10)
+            {
+                Console.WriteLine("More results may exist. Please refine your search if needed.");
+            }
         }
+
 
     }
 }

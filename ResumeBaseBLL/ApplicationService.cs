@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using ResumeBaseBLL.Models;
 
 
 namespace ResumeBaseBLL
@@ -35,30 +36,24 @@ namespace ResumeBaseBLL
                 return;
             }
 
-            Console.WriteLine("Enter Application ID:");
-            int applicationId = int.Parse(Console.ReadLine());
-
-            if (_context.Applications.Any(r => r.ID == applicationId))
+            var applicationDto = new ApplicationDTO
             {
-                Console.WriteLine($"Resume with ID {applicationId} already exists!");
-                return;
-            }
-
-            var application = new ResumeBaseDAL.Application
-            {
-                ID = applicationId,
                 ResumeID = resumeId.ToString(),
                 VacancyID = vacancyId.ToString(),
-                Resume = resume,
-                Vacancy = vacancy,
                 Status = "Pending"
             };
 
-            _context.Applications.Add(application);
+            var applicationEntity = Mapper.Mapper.ToEntity(applicationDto);
+            applicationEntity.Resume = resume;
+            applicationEntity.Vacancy = vacancy;
+
+            _context.Applications.Add(applicationEntity);
             _context.SaveChanges();
 
             Console.WriteLine("Application added successfully!");
+            Console.WriteLine($"Saved with ID: {applicationEntity.ID}");
         }
+
 
         public void RemoveApplication()
         {
@@ -124,7 +119,45 @@ namespace ResumeBaseBLL
             Console.WriteLine($"   Status: {app.Status}");
         }
 
+        public void SetApplicationStatus()
+        {
+            Console.WriteLine("Enter Application ID to find:");
+            int id = int.Parse(Console.ReadLine());
 
+            var app = _context.Applications
+                .Include(a => a.Resume)
+                .Include(a => a.Vacancy)
+                .FirstOrDefault(a => a.ID == id);
+
+            if (app == null)
+            {
+                Console.WriteLine($"Application with ID {id} not found.");
+                return;
+            }
+
+            Console.WriteLine("Which status do you choose?");
+            Console.WriteLine("1. Approve");
+            Console.WriteLine("2. Reject");
+            Console.WriteLine("3. Keep pending");
+
+            int option = int.Parse(Console.ReadLine());
+            switch(option)
+            {
+                case 1: ApproveApplication(app); break;
+                case 2: RejectApplication(app); break;
+                case 3: break;
+            }
+        }
+
+        public void ApproveApplication(Application app)
+        {
+            app.Status = "Approved";
+        }
+
+        public void RejectApplication(Application app)
+        {
+            app.Status = "Rejected";
+        }
 
     }
 }
