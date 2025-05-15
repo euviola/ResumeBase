@@ -54,10 +54,14 @@
     <Compile Include="AccessManager.cs" />
     <Compile Include="ApplicationDTO.cs" />
     <Compile Include="ApplicationService.cs" />
+    <Compile Include="IApplicationService.cs" />
+    <Compile Include="IResumeService.cs" />
+    <Compile Include="IVacancyService.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="ResumeDTO.cs" />
     <Compile Include="ResumeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceFactory.cs" />
     <Compile Include="VacancyDTO.cs" />
     <Compile Include="VacancyService.cs" />
   </ItemGroup>

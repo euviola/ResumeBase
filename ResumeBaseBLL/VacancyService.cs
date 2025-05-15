@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace ResumeBaseBLL
 {
-    public class VacancyService
+    public class VacancyService : IVacancyService
     {
         private readonly AppDbContext _context;
 
-        public VacancyService()
+        public VacancyService(AppDbContext context)
         {
-            _context = new AppDbContext();
+            _context = context;
         }
 
         public void AddVacancy()

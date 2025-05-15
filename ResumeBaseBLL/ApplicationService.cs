@@ -6,17 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using ResumeBaseBLL.Models;
+using ResumeBaseBLL.Mapper;
 
 
 namespace ResumeBaseBLL
 {
-    public class ApplicationService
+    public class ApplicationService : IApplicationService
     {
         private readonly AppDbContext _context;
 
-        public ApplicationService()
+        public ApplicationService(AppDbContext context)
         {
-            _context = new AppDbContext();
+            _context = context;
         }
 
         public void AddApplication()
@@ -30,9 +31,15 @@ namespace ResumeBaseBLL
             var resume = _context.Resumes.FirstOrDefault(r => r.ID == resumeId);
             var vacancy = _context.Vacancies.FirstOrDefault(v => v.ID == vacancyId);
 
-            if (resume == null || vacancy == null)
+            if (resume == null)
             {
-                Console.WriteLine("Resume or Vacancy not found!");
+                Console.WriteLine($"Resume with ID {resumeId} not found!");
+                return;
+            }
+
+            if (vacancy == null)
+            {
+                Console.WriteLine($"Vacancy with ID {vacancyId} not found!");
                 return;
             }
 

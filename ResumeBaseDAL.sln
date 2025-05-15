@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResumeBaseBLL", "ResumeBase
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResumeBaseUI", "ResumeBaseUI\ResumeBaseUI.csproj", "{BB77B49C-2F1F-442E-A7FA-1B06FD745EC5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResumeBaseTests", "ResumeBaseTests\ResumeBaseTests.csproj", "{C66F55F5-DF43-4174-A2E7-DEE5E04162F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{BB77B49C-2F1F-442E-A7FA-1B06FD745EC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB77B49C-2F1F-442E-A7FA-1B06FD745EC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB77B49C-2F1F-442E-A7FA-1B06FD745EC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C66F55F5-DF43-4174-A2E7-DEE5E04162F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C66F55F5-DF43-4174-A2E7-DEE5E04162F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C66F55F5-DF43-4174-A2E7-DEE5E04162F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C66F55F5-DF43-4174-A2E7-DEE5E04162F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

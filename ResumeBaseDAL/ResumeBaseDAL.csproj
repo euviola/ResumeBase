@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="AppDbContext.cs" />
     <Compile Include="Application.cs" />
+    <Compile Include="IRepository.cs" />
     <Compile Include="Migrations\202505102152348_InitialCreate.cs" />
     <Compile Include="Migrations\202505102152348_InitialCreate.Designer.cs">
       <DependentUpon>202505102152348_InitialCreate.cs</DependentUpon>
@@ -60,6 +61,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Resume.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResumeRepository.cs" />
     <Compile Include="Vacancy.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -60,8 +60,6 @@ namespace ResumeBaseBLL.Mapper
                 ID = entity.ID,
                 ResumeID = entity.ResumeID,
                 VacancyID = entity.VacancyID,
-                Resume = Mapper.ToDTO(entity.Resume),
-                Vacancy = Mapper.ToDTO(entity.Vacancy),
                 Status = entity.Status
             };
         }
@@ -73,8 +71,6 @@ namespace ResumeBaseBLL.Mapper
                 ID = dto.ID,
                 ResumeID = dto.ResumeID,
                 VacancyID = dto.VacancyID,
-                Resume = Mapper.ToEntity(dto.Resume),
-                Vacancy = Mapper.ToEntity(dto.Vacancy),
                 Status = dto.Status
             };
         }

@@ -14,9 +14,9 @@ namespace ResumeBaseUI
     {
         static void Main(string[] args)
         {
-            var resumeService = new ResumeService();
-            var vacancyService = new VacancyService();
-            var appService = new ApplicationService();
+            var resumeService = ServiceFactory.CreateResumeService();
+            var vacancyService = ServiceFactory.CreateVacancyService();
+            var appService = ServiceFactory.CreateApplicationService();
             ConsoleMenu cs = new ConsoleMenu();
 
             UserRole userRole = new UserRole();

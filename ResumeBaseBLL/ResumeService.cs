@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ResumeBaseBLL.Models;
 using ResumeBaseBLL.Mapper;
 using ResumeBaseDAL;
 
 namespace ResumeBaseBLL
 {
-    //Клас ResumeService - тут відбуватимуться усі дії над списком резюме
-    public class ResumeService
+    public class ResumeService : IResumeService
     {
-        private readonly AppDbContext _context;
+        private readonly IRepository<Resume> _repository;
 
-        public ResumeService()
+        public ResumeService(IRepository<Resume> repository)
         {
-            _context = new AppDbContext(); 
+            _repository = repository;
         }
 
         public void AddResume()
@@ -34,8 +31,7 @@ namespace ResumeBaseBLL
             };
 
             var entity = Mapper.Mapper.ToEntity(resumeDto);
-            _context.Resumes.Add(entity);
-            _context.SaveChanges();
+            _repository.Add(entity);
 
             Console.WriteLine("Added successfully");
             Console.WriteLine($"Resume saved with ID: {entity.ID}");
@@ -50,7 +46,7 @@ namespace ResumeBaseBLL
                 return;
             }
 
-            var entity = _context.Resumes.Find(id);
+            var entity = _repository.GetById(id);
             if (entity == null)
             {
                 Console.WriteLine("Resume not found.");
@@ -71,7 +67,7 @@ namespace ResumeBaseBLL
                 entity.Description = description;
             }
 
-            _context.SaveChanges();
+            _repository.Update(entity);
             Console.WriteLine("Resume updated successfully.");
         }
 
@@ -84,22 +80,20 @@ namespace ResumeBaseBLL
                 return;
             }
 
-            var entity = _context.Resumes.Find(id);
+            var entity = _repository.GetById(id);
             if (entity == null)
             {
                 Console.WriteLine("Resume not found.");
                 return;
             }
 
-            _context.Resumes.Remove(entity);
-            _context.SaveChanges();
+            _repository.Delete(id);
             Console.WriteLine("Resume removed successfully.");
         }
 
-
         public void GetAllResume()
         {
-            var entities = _context.Resumes.ToList();
+            var entities = _repository.GetAll().ToList();
             var resumes = entities.Select(Mapper.Mapper.ToDTO).ToList();
 
             if (resumes.Count == 0)
@@ -115,13 +109,12 @@ namespace ResumeBaseBLL
             }
         }
 
-
         public void FindResume()
         {
             Console.WriteLine("Enter full or partial name to search:");
             string searchTerm = Console.ReadLine().ToLower();
 
-            var results = _context.Resumes
+            var results = _repository.GetAll()
                 .Where(r => r.FullName.ToLower().Contains(searchTerm))
                 .Take(10)
                 .ToList()
@@ -145,7 +138,5 @@ namespace ResumeBaseBLL
                 Console.WriteLine("More results may exist. Please refine your search if needed.");
             }
         }
-
-
     }
 }
