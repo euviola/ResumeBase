@@ -15,5 +15,4 @@ namespace ResumeBaseBLL
         void GetAllResume();
         void FindResume();
     }
-
 }
