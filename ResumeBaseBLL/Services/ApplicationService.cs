@@ -1,23 +1,16 @@
 ﻿using ResumeBaseDAL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Entity;
 using ResumeBaseBLL.Models;
-using ResumeBaseBLL.Mapper;
 
 
 namespace ResumeBaseBLL
 {
-    public class ApplicationService : IApplicationService
+    public class ApplicationService
     {
         private readonly AppDbContext _context;
 
-        public ApplicationService(AppDbContext context)
+        public ApplicationService()
         {
-            _context = context;
+            _context = new AppDbContext();
         }
 
         public void AddApplication()
@@ -31,15 +24,9 @@ namespace ResumeBaseBLL
             var resume = _context.Resumes.FirstOrDefault(r => r.ID == resumeId);
             var vacancy = _context.Vacancies.FirstOrDefault(v => v.ID == vacancyId);
 
-            if (resume == null)
+            if (resume == null || vacancy == null)
             {
-                Console.WriteLine($"Resume with ID {resumeId} not found!");
-                return;
-            }
-
-            if (vacancy == null)
-            {
-                Console.WriteLine($"Vacancy with ID {vacancyId} not found!");
+                Console.WriteLine("Resume or Vacancy not found!");
                 return;
             }
 
@@ -84,8 +71,8 @@ namespace ResumeBaseBLL
         public void GetAllApplications()
         {
             var applications = _context.Applications
-                .Include(a => a.Resume)
-                .Include(a => a.Vacancy)
+                .Include("Resume")
+                .Include("Vacancy")
                 .ToList();
 
             if (!applications.Any())
@@ -110,8 +97,8 @@ namespace ResumeBaseBLL
             int id = int.Parse(Console.ReadLine());
 
             var app = _context.Applications
-                .Include(a => a.Resume)
-                .Include(a => a.Vacancy)
+                .Include("Resume")
+                .Include("Vacancy")
                 .FirstOrDefault(a => a.ID == id);
 
             if (app == null)
@@ -132,8 +119,8 @@ namespace ResumeBaseBLL
             int id = int.Parse(Console.ReadLine());
 
             var app = _context.Applications
-                .Include(a => a.Resume)
-                .Include(a => a.Vacancy)
+                .Include("Resume")
+                .Include("Vacancy")
                 .FirstOrDefault(a => a.ID == id);
 
             if (app == null)
@@ -148,7 +135,7 @@ namespace ResumeBaseBLL
             Console.WriteLine("3. Keep pending");
 
             int option = int.Parse(Console.ReadLine());
-            switch(option)
+            switch (option)
             {
                 case 1: ApproveApplication(app); break;
                 case 2: RejectApplication(app); break;

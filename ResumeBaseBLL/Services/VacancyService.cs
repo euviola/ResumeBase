@@ -1,22 +1,15 @@
 ﻿using ResumeBaseBLL.Models;
-using ResumeBaseBLL.Mapper;
 using ResumeBaseDAL;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ResumeBaseBLL
 {
-    public class VacancyService : IVacancyService
+    public class VacancyService
     {
         private readonly AppDbContext _context;
 
-        public VacancyService(AppDbContext context)
+        public VacancyService()
         {
-            _context = context;
+            _context = new AppDbContext();
         }
 
         public void AddVacancy()

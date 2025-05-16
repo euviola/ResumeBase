@@ -4,6 +4,7 @@ using System.Linq;
 using ResumeBaseBLL.Models;
 using ResumeBaseBLL.Mapper;
 using ResumeBaseDAL;
+using ResumeBaseBLL.ServiceInterfaces;
 
 namespace ResumeBaseBLL
 {

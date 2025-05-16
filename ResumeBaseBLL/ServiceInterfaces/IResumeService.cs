@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ResumeBaseBLL
+namespace ResumeBaseBLL.ServiceInterfaces
 {
     public interface IResumeService
     {
