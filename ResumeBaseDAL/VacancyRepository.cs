@@ -6,29 +6,29 @@ using System.Threading.Tasks;
 
 namespace ResumeBaseDAL
 {
-    public class ResumeRepository : IRepository<Resume>
+    public class VacancyRepository : IRepository<Vacancy>
     {
         private readonly AppDbContext _context;
 
-        public ResumeRepository(AppDbContext context)
+        public VacancyRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public void Add(Resume entity) => _context.Resumes.Add(entity);
+        public void Add(Vacancy entity) => _context.Vacancies.Add(entity);
 
         public void Delete(int id)
         {
-            var entity = _context.Resumes.Find(id);
+            var entity = _context.Vacancies.Find(id);
             if (entity != null)
-                _context.Resumes.Remove(entity);
+                _context.Vacancies.Remove(entity);
         }
 
-        public IEnumerable<Resume> GetAll() => _context.Resumes.ToList();
+        public IEnumerable<Vacancy> GetAll() => _context.Vacancies.ToList();
 
-        public Resume GetById(int id) => _context.Resumes.Find(id);
+        public Vacancy GetById(int id) => _context.Vacancies.Find(id);
 
-        public void Update(Resume entity)
+        public void Update(Vacancy entity)
         {
             _context.SaveChanges();
         }
@@ -39,5 +39,4 @@ namespace ResumeBaseDAL
         }
 
     }
-
 }

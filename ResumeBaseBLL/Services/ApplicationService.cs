@@ -1,60 +1,81 @@
 ﻿using ResumeBaseDAL;
 using ResumeBaseBLL.Models;
-
+using System;
+using System.Linq;
 
 namespace ResumeBaseBLL
 {
     public class ApplicationService
     {
-        private readonly AppDbContext _context;
+        private readonly IRepository<Application> _applicationRepository;
+        private readonly IRepository<Resume> _resumeRepository;
+        private readonly IRepository<Vacancy> _vacancyRepository;
 
-        public ApplicationService()
+        public ApplicationService(
+            IRepository<Application> applicationRepository,
+            IRepository<Resume> resumeRepository,
+            IRepository<Vacancy> vacancyRepository)
         {
-            _context = new AppDbContext();
+            _applicationRepository = applicationRepository;
+            _resumeRepository = resumeRepository;
+            _vacancyRepository = vacancyRepository;
         }
 
         public void AddApplication()
         {
             Console.WriteLine("Enter Resume ID:");
-            int resumeId = int.Parse(Console.ReadLine());
-
-            Console.WriteLine("Enter Vacancy ID:");
-            int vacancyId = int.Parse(Console.ReadLine());
-
-            var resume = _context.Resumes.FirstOrDefault(r => r.ID == resumeId);
-            var vacancy = _context.Vacancies.FirstOrDefault(v => v.ID == vacancyId);
-
-            if (resume == null || vacancy == null)
+            if (!int.TryParse(Console.ReadLine(), out int resumeId))
             {
-                Console.WriteLine("Resume or Vacancy not found!");
+                Console.WriteLine("Invalid Resume ID.");
                 return;
             }
 
-            var applicationDto = new ApplicationDTO
+            Console.WriteLine("Enter Vacancy ID:");
+            if (!int.TryParse(Console.ReadLine(), out int vacancyId))
             {
-                ResumeID = resumeId.ToString(),
-                VacancyID = vacancyId.ToString(),
-                Status = "Pending"
-            };
+                Console.WriteLine("Invalid Vacancy ID.");
+                return;
+            }
 
-            var applicationEntity = Mapper.Mapper.ToEntity(applicationDto);
-            applicationEntity.Resume = resume;
-            applicationEntity.Vacancy = vacancy;
+            var resume = _resumeRepository.GetAll().FirstOrDefault(r => r.ID == resumeId);
+            var vacancy = _vacancyRepository.GetAll().FirstOrDefault(v => v.ID == vacancyId);
 
-            _context.Applications.Add(applicationEntity);
-            _context.SaveChanges();
+            if (resume != null && vacancy != null)
+            {
+                var applicationDto = new ApplicationDTO
+                {
+                    ResumeID = resumeId.ToString(),
+                    VacancyID = vacancyId.ToString(),
+                    Status = "Pending"
+                };
 
-            Console.WriteLine("Application added successfully!");
-            Console.WriteLine($"Saved with ID: {applicationEntity.ID}");
+                var applicationEntity = Mapper.Mapper.ToEntity(applicationDto);
+                applicationEntity.Resume = resume;
+                applicationEntity.Vacancy = vacancy;
+
+                _applicationRepository.Add(applicationEntity);
+                _applicationRepository.SaveChanges();
+
+                Console.WriteLine("Application added successfully!");
+                Console.WriteLine($"Saved with ID: {applicationEntity.ID}");
+            }
+            else
+            {
+                Console.WriteLine("Resume not found!");
+                return;
+            }
         }
-
 
         public void RemoveApplication()
         {
             Console.WriteLine("Enter Application ID to remove:");
-            int id = int.Parse(Console.ReadLine());
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("Invalid ID.");
+                return;
+            }
 
-            var application = _context.Applications.FirstOrDefault(a => a.ID == id);
+            var application = _applicationRepository.GetAll().FirstOrDefault(a => a.ID == id);
 
             if (application == null)
             {
@@ -62,17 +83,15 @@ namespace ResumeBaseBLL
                 return;
             }
 
-            _context.Applications.Remove(application);
-            _context.SaveChanges();
+            _applicationRepository.Delete(application.ID);
+            _applicationRepository.SaveChanges();
 
             Console.WriteLine($"Application with ID {id} removed successfully.");
         }
 
         public void GetAllApplications()
         {
-            var applications = _context.Applications
-                .Include("Resume")
-                .Include("Vacancy")
+            var applications = _applicationRepository.GetAll()
                 .ToList();
 
             if (!applications.Any())
@@ -94,11 +113,13 @@ namespace ResumeBaseBLL
         public void FindApplication()
         {
             Console.WriteLine("Enter Application ID to find:");
-            int id = int.Parse(Console.ReadLine());
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("Invalid ID.");
+                return;
+            }
 
-            var app = _context.Applications
-                .Include("Resume")
-                .Include("Vacancy")
+            var app = _applicationRepository.GetAll()
                 .FirstOrDefault(a => a.ID == id);
 
             if (app == null)
@@ -115,13 +136,14 @@ namespace ResumeBaseBLL
 
         public void SetApplicationStatus()
         {
-            Console.WriteLine("Enter Application ID to find:");
-            int id = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter Application ID:");
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("Invalid ID.");
+                return;
+            }
 
-            var app = _context.Applications
-                .Include("Resume")
-                .Include("Vacancy")
-                .FirstOrDefault(a => a.ID == id);
+            var app = _applicationRepository.GetAll().FirstOrDefault(a => a.ID == id);
 
             if (app == null)
             {
@@ -129,29 +151,46 @@ namespace ResumeBaseBLL
                 return;
             }
 
-            Console.WriteLine("Which status do you choose?");
+            Console.WriteLine("Choose a new status:");
             Console.WriteLine("1. Approve");
             Console.WriteLine("2. Reject");
-            Console.WriteLine("3. Keep pending");
+            Console.WriteLine("3. Keep Pending");
 
-            int option = int.Parse(Console.ReadLine());
+            if (!int.TryParse(Console.ReadLine(), out int option))
+            {
+                Console.WriteLine("Invalid option.");
+                return;
+            }
+
             switch (option)
             {
-                case 1: ApproveApplication(app); break;
-                case 2: RejectApplication(app); break;
-                case 3: break;
+                case 1:
+                    ApproveApplication(app);
+                    break;
+                case 2:
+                    RejectApplication(app);
+                    break;
+                case 3:
+                    Console.WriteLine("Status left unchanged.");
+                    return;
+                default:
+                    Console.WriteLine("Invalid option.");
+                    return;
             }
+
+            _applicationRepository.Update(app);
+            _applicationRepository.SaveChanges();
+            Console.WriteLine("Application status updated successfully.");
         }
 
-        public void ApproveApplication(Application app)
+        private void ApproveApplication(Application app)
         {
             app.Status = "Approved";
         }
 
-        public void RejectApplication(Application app)
+        private void RejectApplication(Application app)
         {
             app.Status = "Rejected";
         }
-
     }
 }

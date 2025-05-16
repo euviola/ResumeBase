@@ -62,13 +62,13 @@ namespace ResumeBaseBLL.Mapper
 
         public static Application ToEntity(ApplicationDTO dto)
         {
+            if (dto == null) return null;
+
             return new Application
             {
                 ID = dto.ID,
                 ResumeID = dto.ResumeID,
                 VacancyID = dto.VacancyID,
-                Resume = Mapper.ToEntity(dto.Resume),
-                Vacancy = Mapper.ToEntity(dto.Vacancy),
                 Status = dto.Status
             };
         }

@@ -33,6 +33,7 @@ namespace ResumeBaseBLL
 
             var entity = Mapper.Mapper.ToEntity(resumeDto);
             _repository.Add(entity);
+            _repository.SaveChanges();
 
             Console.WriteLine("Added successfully");
             Console.WriteLine($"Resume saved with ID: {entity.ID}");

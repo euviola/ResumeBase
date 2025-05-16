@@ -1,4 +1,5 @@
 ﻿using ResumeBaseDAL;
+using ResumeBaseBLL.ServiceInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,24 +10,29 @@ namespace ResumeBaseBLL
 {
     public static class ServiceFactory
     {
-        private static AppDbContext _context = new AppDbContext();
-
-        private static IRepository<Resume> _resumeRepository = new ResumeRepository(_context);
-
-        public static IResumeService CreateResumeService()
+        public static ResumeService CreateResumeService()
         {
-            return new ResumeService(_resumeRepository);
+            var dbContext = new AppDbContext(); 
+            var resumeRepository = new ResumeRepository(dbContext);
+            return new ResumeService(resumeRepository);
         }
 
-
-        public static IVacancyService CreateVacancyService()
+        public static VacancyService CreateVacancyService()
         {
-            return new VacancyService(new AppDbContext());
+            var dbContext = new AppDbContext();
+            var vacancyRepository = new VacancyRepository(dbContext);
+            return new VacancyService(vacancyRepository);
         }
 
-        public static IApplicationService CreateApplicationService()
+        public static ApplicationService CreateApplicationService()
         {
-            return new ApplicationService(new AppDbContext());
+            var dbContext = new AppDbContext();
+            var applicationService = new ApplicationService(
+                        new ApplicationRepository(dbContext),
+                        new ResumeRepository(dbContext),
+                        new VacancyRepository(dbContext)
+            );
+            return applicationService;
         }
     }
 }
