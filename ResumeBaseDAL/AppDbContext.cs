@@ -3,6 +3,7 @@ using System.Data.Entity;
 
 namespace ResumeBaseDAL
 {
+    //Клас контексту. Потрібен для створення бази даних в EF
     public class AppDbContext : DbContext
     {
         public AppDbContext() : base("DefaultConnection") { }

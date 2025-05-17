@@ -2,7 +2,7 @@
 
 namespace ResumeBaseDAL
 {
-    //Клас "Вакансія"
+    //Клас "Вакансія". Містить опис вакансії, її назву та заробітню плату.
     public class Vacancy
     {
         [Key]

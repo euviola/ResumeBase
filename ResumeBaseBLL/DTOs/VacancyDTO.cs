@@ -1,5 +1,6 @@
 ﻿namespace ResumeBaseBLL.Models
 {
+    //DTO-варіант класу вакансій.
     public class VacancyDTO
     {
         public int ID { get; set; }

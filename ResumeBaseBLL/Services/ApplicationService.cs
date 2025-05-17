@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace ResumeBaseBLL
 {
+    // Клас реалізує бізнес-логіку для роботи із заявками на вакансії.
+    // Надає методи для додавання, видалення, перегляду, пошуку та зміни статусу заявок.
+    // Використовує репозиторії для доступу до даних заявок, резюме та вакансій.
     public class ApplicationService
     {
         private readonly IRepository<Application> _applicationRepository;
@@ -21,6 +24,7 @@ namespace ResumeBaseBLL
             _vacancyRepository = vacancyRepository;
         }
 
+        //Метод додавання заявки.
         public void AddApplication()
         {
             Console.WriteLine("Enter Resume ID:");
@@ -66,6 +70,7 @@ namespace ResumeBaseBLL
             }
         }
 
+        //Метод видалення заявки
         public void RemoveApplication()
         {
             Console.WriteLine("Enter Application ID to remove:");
@@ -89,6 +94,7 @@ namespace ResumeBaseBLL
             Console.WriteLine($"Application with ID {id} removed successfully.");
         }
 
+        //Метод отримання заявок
         public void GetAllApplications()
         {
             var applications = _applicationRepository.GetAll()
@@ -110,6 +116,7 @@ namespace ResumeBaseBLL
             }
         }
 
+        //Метод пошуку заявки
         public void FindApplication()
         {
             Console.WriteLine("Enter Application ID to find:");
@@ -134,6 +141,7 @@ namespace ResumeBaseBLL
             Console.WriteLine($"   Status: {app.Status}");
         }
 
+        //Метод встановлення статусу зявки
         public void SetApplicationStatus()
         {
             Console.WriteLine("Enter Application ID:");
@@ -183,11 +191,13 @@ namespace ResumeBaseBLL
             Console.WriteLine("Application status updated successfully.");
         }
 
+        //Метод одобрення заявки
         private void ApproveApplication(Application app)
         {
             app.Status = "Approved";
         }
 
+        //Метод відмови заявці.
         private void RejectApplication(Application app)
         {
             app.Status = "Rejected";

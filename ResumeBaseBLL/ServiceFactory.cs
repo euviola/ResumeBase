@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace ResumeBaseBLL
 {
+    // Фабричний клас для створення екземплярів сервісів бізнес-логіки разом з їхніми залежностями.
+    // Ініціалізує відповідні репозиторії та передає їх у конструктори сервісів.
+    // Забезпечує створення окремого екземпляра AppDbContext для кожного сервісу.
+
     public static class ServiceFactory
     {
         public static ResumeService CreateResumeService()

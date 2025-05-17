@@ -4,7 +4,7 @@ using ResumeBaseBLL;
 
 namespace ResumeBaseTests
 {
-    public class ResumeTest
+    public class ResumeServiceTest
     {
         [Fact]
         public void GetAllResume_ShouldPrintResumes_WhenDataExists()

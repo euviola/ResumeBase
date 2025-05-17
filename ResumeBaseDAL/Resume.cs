@@ -2,7 +2,7 @@
 
 namespace ResumeBaseDAL
 {
-    //Клас "Резюме"
+    //Клас "Резюме". Містить повне ім'я автора та довільний опис.
     public class Resume
     {
         [Key]

@@ -1,5 +1,6 @@
 ﻿namespace ResumeBaseBLL
 {
+    //енумератор ролей доступу
     public enum UserRole
     {
         Admin,
@@ -10,6 +11,9 @@
 
     public class AccessManager
     {
+        //Клас, який відповідає за доступ до певних даних.
+
+        //Метод Login() повертає певне значення із енумератора, яке потім використовується для перевірки доступу
         public static UserRole Login()
         {
             Console.WriteLine("##### Log into your account #####");
@@ -21,6 +25,7 @@
             return UserRole.Guest;
         }
 
+        //Перевірка на наявність доступу ролі. Приймає дію (метод) і повертає булеве значення
         public static bool HasAccess(UserRole role, string action)
         {
             if (role == UserRole.Admin)
@@ -42,6 +47,7 @@
             }
         }
 
+        //Виконує перевірку. У разі успішності запускає обраний метод.
         public static void ExecuteIfAuthorized(UserRole role, string action, Action method)
         {
             if (HasAccess(role, action))

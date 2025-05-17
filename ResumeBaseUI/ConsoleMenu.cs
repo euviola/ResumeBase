@@ -1,7 +1,9 @@
 ﻿namespace ResumeBaseUI
 {
+    // Клас консольного меню. Відповідає за виведення меню на екран.
     public class ConsoleMenu
     {
+        // Стартове меню для навігації
         public int StartMenu()
         {
             Console.WriteLine("-—- Start Menu —--");
@@ -13,6 +15,7 @@
             return result;
         }
 
+        // Меню для керування резюме
         public int ResumeConf()
         {
             Console.WriteLine("--- Resume Configuration ---");
@@ -26,6 +29,7 @@
             return result;
         }
 
+        // Меню для керування вакансіями
         public int VacancyConf()
         {
             Console.WriteLine("--- Vacancy Configuration ---");
@@ -39,6 +43,7 @@
             return result;
         }
 
+        // Меню для керування заявками
         public int AppConf()
         {
             Console.WriteLine("--- Application Configuration ---");

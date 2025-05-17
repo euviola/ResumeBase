@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ResumeBaseDAL
 {
+    //Інтерфейс репозиторію. Відповідає за правила збереження, пошуку, повернення, оновлення та видалення даних у БД.
     public interface IRepository<T> where T : class
     {
         T GetById(int id);

@@ -8,6 +8,7 @@ using ResumeBaseBLL.ServiceInterfaces;
 
 namespace ResumeBaseBLL
 {
+    // Клас реалізує бізнес-логіку для роботи із резюме.
     public class ResumeService : IResumeService
     {
         private readonly IRepository<Resume> _repository;
@@ -17,6 +18,7 @@ namespace ResumeBaseBLL
             _repository = repository;
         }
 
+        // Додавання резюме
         public void AddResume()
         {
             Console.WriteLine("Enter full name:");
@@ -38,7 +40,8 @@ namespace ResumeBaseBLL
             Console.WriteLine("Added successfully");
             Console.WriteLine($"Resume saved with ID: {entity.ID}");
         }
-
+        
+        // Редагування резюме
         public void EditResume()
         {
             Console.WriteLine("Enter the ID of the resume to edit:");
@@ -73,6 +76,7 @@ namespace ResumeBaseBLL
             Console.WriteLine("Resume updated successfully.");
         }
 
+        //Видалення резюме
         public void RemoveResume()
         {
             Console.WriteLine("Enter the ID of the resume to remove:");
@@ -93,6 +97,7 @@ namespace ResumeBaseBLL
             Console.WriteLine("Resume removed successfully.");
         }
 
+        //Повернення списку резюме
         public void GetAllResume()
         {
             var entities = _repository.GetAll().ToList();
@@ -111,6 +116,7 @@ namespace ResumeBaseBLL
             }
         }
 
+        //Пошук резюме
         public void FindResume()
         {
             Console.WriteLine("Enter full or partial name to search:");

@@ -5,6 +5,8 @@ using System.Linq;
 
 namespace ResumeBaseBLL
 {
+    // Клас реалізує бізнес-логіку для роботи із вакансіями.
+
     public class VacancyService
     {
         private readonly IRepository<Vacancy> _repository;
@@ -14,6 +16,7 @@ namespace ResumeBaseBLL
             _repository = repository;
         }
 
+        // Додавання вакансії
         public void AddVacancy()
         {
             Console.WriteLine("Enter vacancy title:");
@@ -44,6 +47,7 @@ namespace ResumeBaseBLL
             Console.WriteLine($"Vacancy saved with ID: {entity.ID}");
         }
 
+        // Видалення вакансії
         public void RemoveVacancy()
         {
             Console.WriteLine("Enter the ID of the vacancy to remove:");
@@ -66,6 +70,7 @@ namespace ResumeBaseBLL
             Console.WriteLine("Vacancy removed successfully.");
         }
 
+        // Редагування вакансії
         public void EditVacancy()
         {
             Console.WriteLine("Enter the ID of the vacancy to edit:");
@@ -103,6 +108,7 @@ namespace ResumeBaseBLL
             Console.WriteLine("Vacancy updated successfully.");
         }
 
+        // Повернення вакансій
         public void GetAllVacancies()
         {
             var vacancies = _repository.GetAll().ToList();
@@ -122,6 +128,7 @@ namespace ResumeBaseBLL
             }
         }
 
+        // Пошук вакансій
         public void FindVacancy()
         {
             Console.WriteLine("Enter title or keyword to search:");

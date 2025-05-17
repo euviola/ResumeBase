@@ -1,5 +1,6 @@
 ﻿namespace ResumeBaseBLL.Models
 {
+    //DTO-варіант класу заяв.
     public class ApplicationDTO
     {
         public int ID { get; set; }

@@ -3,6 +3,7 @@ using ResumeBaseDAL;
 
 namespace ResumeBaseBLL.Mapper
 {
+    //Маппер. Створений для перетворення об'єктів на моделі для кращої ізоляції між DAL та BLL.
     public static class Mapper
     {
         public static ResumeDTO ToDTO(Resume entity)

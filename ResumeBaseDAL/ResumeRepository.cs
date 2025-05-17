@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ResumeBaseDAL
 {
+    //Репозиторій резюме. Реалізує інтерфейс IRepository стосовно саме резюме.
     public class ResumeRepository : IRepository<Resume>
     {
         private readonly AppDbContext _context;

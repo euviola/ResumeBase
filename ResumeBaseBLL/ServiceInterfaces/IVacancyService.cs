@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace ResumeBaseBLL.ServiceInterfaces
 {
+    //Інтерфейс для сервісу керування вакансіями. 
+    //Методи для додавання, видалення, перегляду, редагування та пошуку вакансій.
     public interface IVacancyService
     {
         void AddVacancy();

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace ResumeBaseBLL
 {
+    //Інтерфейс для сервісу керування заявок. 
+    //Методи для додавання, видалення, перегляду, пошуку та зміни статусу заявок.
     public interface IApplicationService
     {
         void AddApplication();

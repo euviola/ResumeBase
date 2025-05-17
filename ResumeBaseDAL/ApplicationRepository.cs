@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ResumeBaseDAL
 {
+    //Репозиторій заявок. Реалізує інтерфейс IRepository стосовно саме заявок.
     public class ApplicationRepository : IRepository<Application>
     {
         private readonly AppDbContext _context;
