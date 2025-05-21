@@ -202,5 +202,82 @@ namespace ResumeBaseBLL
         {
             app.Status = "Rejected";
         }
+
+        public (bool Success, string Message) AddApplicationWeb(ApplicationDTO dto)
+        {
+            if (!int.TryParse(dto.ResumeID, out int resumeId) || !int.TryParse(dto.VacancyID, out int vacancyId))
+                return (false, "Invalid ResumeID or VacancyID.");
+
+            var resume = _resumeRepository.GetAll().FirstOrDefault(r => r.ID == resumeId);
+            var vacancy = _vacancyRepository.GetAll().FirstOrDefault(v => v.ID == vacancyId);
+
+            if (resume == null || vacancy == null)
+                return (false, "Resume or Vacancy not found.");
+
+            var entity = Mapper.Mapper.ToEntity(dto);
+            entity.Resume = resume;
+            entity.Vacancy = vacancy;
+
+            _applicationRepository.Add(entity);
+            _applicationRepository.SaveChanges();
+
+            return (true, $"Application added with ID: {entity.ID}");
+        }
+
+        public (bool Success, string Message) RemoveApplicationWeb(int id)
+        {
+            var application = _applicationRepository.GetAll().FirstOrDefault(a => a.ID == id);
+            if (application == null)
+                return (false, "Application not found.");
+
+            _applicationRepository.Delete(id);
+            _applicationRepository.SaveChanges();
+            return (true, $"Application with ID {id} removed.");
+        }
+
+        public List<ApplicationDTO> GetAllApplicationsWeb()
+        {
+            return _applicationRepository.GetAll()
+                .Select(a => new ApplicationDTO
+                {
+                    ID = a.ID,
+                    ResumeID = a.Resume?.ID.ToString(),
+                    VacancyID = a.Vacancy?.ID.ToString(),
+                    Status = a.Status
+                }).ToList();
+        }
+
+        public ApplicationDTO? FindApplicationWeb(int id)
+        {
+            var app = _applicationRepository.GetAll().FirstOrDefault(a => a.ID == id);
+            if (app == null)
+                return null;
+
+            return new ApplicationDTO
+            {
+                ID = app.ID,
+                ResumeID = app.Resume?.ID.ToString(),
+                VacancyID = app.Vacancy?.ID.ToString(),
+                Status = app.Status
+            };
+        }
+
+        public (bool Success, string Message) SetApplicationStatusWeb(int id, string status)
+        {
+            var app = _applicationRepository.GetAll().FirstOrDefault(a => a.ID == id);
+            if (app == null)
+                return (false, "Application not found.");
+
+            var validStatuses = new[] { "Approved", "Rejected", "Pending" };
+            if (!validStatuses.Contains(status))
+                return (false, "Invalid status. Use Approved, Rejected, or Pending.");
+
+            app.Status = status;
+            _applicationRepository.Update(app);
+            _applicationRepository.SaveChanges();
+
+            return (true, "Status updated successfully.");
+        }
+
     }
 }
